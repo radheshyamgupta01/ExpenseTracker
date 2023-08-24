@@ -1,0 +1,27 @@
+.setting{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #37854b;
+    height: 600px;
+    width: 100%;
+}
+.setting ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 20vw;
+
+background-color: beige;
+
+    height: 50%;
+  
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin: 10px;
+}
+.setting ul li{
+    list-style: none;
+}
+

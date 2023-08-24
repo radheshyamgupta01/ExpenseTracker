@@ -1,50 +1,87 @@
-import React,{useRef} from 'react';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import './Login.css'; // Import your custom styles here
+import React,{useState} from 'react'
+import { useHistory,NavLink } from 'react-router-dom';
 
-function Login() {
-  const emailInput= useRef(null)
-  const passwordInput=useRef(null)
-  const loginButtonHandler=()=>{
-fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAKS4hyLhlkxU0AVEJjyqH2PYc9LG4TXqo
 
-`,{
-  method:"POST",
-  body:JSON.stringify({
-    emailInput:emailInput.current.value,
-    passwordInput:passwordInput.current.value,
-    returnSecureToken:true
-  })
-})
-.then((res)=>res.json())
-.then((body)=>{
-  alert(body)
-})
-.catch((error)=>error)
+import "./Login.css"
+export default function SignUp() {
+  const [emailInput,setEmailInput]=useState("")
+  const [passwordInput,setpasswordInput]=useState("")
+
+const history=useHistory()
+  const emailHandler=(e)=>{
+    setEmailInput(e.target.value)
   }
-  return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-4">
-          <div className="card p-4 shadow">
-            <h2 className="text-center mb-4">Log In</h2>
-            <form>
-              <div className="mb-3">
-                <input type="email" className="form-control h-50" placeholder="Email" required />
-              </div>
-              <div className="mb-3">
-                <input type="password" className="form-control h-50" placeholder="Password" required />
-              </div>
-              <button type="submit" className="btn btn-primary btn-block h-50" onClick={loginButtonHandler}>Log In</button>
-            </form>
-            <p className="text-center mt-3">
-              Don't have an account? <a href="#">Sign Up</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  const passwordHandler=(e)=>{
+    setpasswordInput(e.target.value)
+  }
+  const formHandler=(e)=>{
+e.preventDefault()
+ 
+  fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA7YeTd7ZFDkf2KAhcUDB9mUbPhpalT1Kk`
+  ,{
+method:"POST",
+body:JSON.stringify({
+email:emailInput,
+password:passwordInput,
+returnSecureToken:true,
+})
+  })
+  .then((res)=>{
+    if(res.ok){
+      alert("added")
+
+    history.push("/product")
+      setEmailInput("")
+      setpasswordInput("")
+      return res.json()
+
+    }
+    else{
+    return res.json().then((body)=>{
+      alert(body.error.message)
+      setEmailInput("")
+      setpasswordInput("")
+    })
+    }
+  })
+  .then((body)=>{
+localStorage.setItem("token",body.idToken)
+  })
+}
+const goToSignUpPage=()=>{
+  history.push("/sign")
+}
+const changePassword=()=>{
+  history.push("/changePassword")
+}
+const forgotPassword=()=>{
+  history.push("./forgotpass")
 }
 
-export default Login;
+
+
+  return (
+    <div  className="login-container">
+            <div className="curved-corner"></div>
+
+        <form onSubmit={formHandler}>
+         <h1 className="height text">Log-In</h1>
+            <input type="email" placeholder="email"  className="height" onChange={emailHandler}></input>
+            <br></br>
+         
+            <input type="password" placeholder='password'  className="height" onChange={passwordHandler}></input>
+            <br></br>
+
+            <button className="height" type='"submit'>Submit</button>
+        <br></br>
+            <NavLink to="/forgotpass" className="height" type='"submit' onClick={forgotPassword}> forgotPasswords</NavLink>
+            <br></br> 
+             <br></br>
+
+            <button className="height" type='"submit' onClick={goToSignUpPage}>
+              Don'nt Have an accounts ? <span>Sign in</span>
+            </button>
+        </form>
+    </div>
+  )
+}

@@ -5,7 +5,7 @@
 
 }
 
-.sign-up-container {
+.forgot-password-container {
 
     height: 100vh;
     width: 100vw;
@@ -14,11 +14,13 @@
     justify-content: center;
     align-items: center;
  text-align: center;
+
     
 }
 
-.sign-up-container form {
-    height: 60%;
+
+.forgot-password-container form {
+    height: 40%;
     width: 30%;
 
     border: 1px solid black;
@@ -31,25 +33,29 @@
     background-color: white;
 }
 
-.height {
-    margin-bottom: 30px;
+ .login-container.height {
+    margin-bottom: 10px;
 }
 
-input {
-   height:15%;
+ .login-container input {
+   height:4vh;
     width: 70%;
+ 
 }
 
-button {
-    height:15%;
+ .login-container button {
+    color: white;
+  font-size: 1rem;
+    height:4vh;
     width: 70%;
     background-color: rgb(9, 85, 42);
-   
+    outline: 0;
+    border: 0;
     border-radius: 5px;
     outline: 0;
     border: 0;
-    color: white;
+    
 }
-.text{
+ .login-container .text{
     font-family:Georgia, 'Times New Roman', Times, serif;
 }

@@ -1,0 +1,25 @@
+.profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+   
+    height: 600px;
+}
+.profile form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 50%;
+  
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width: 30%;
+    margin: 10px;
+}
+.profile form input,button{
+    height: 2.5vw;
+    margin: 10px;
+    width: 15vw;
+}
+

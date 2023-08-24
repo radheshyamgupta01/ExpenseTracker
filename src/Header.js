@@ -1,42 +1,42 @@
-import React from 'react'
-// import "./Header.css"
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import "./Header.css";
+
+import {useHistory} from "react-router-dom"
+
 export default function Header() {
+  const history= useHistory()
+  const LogoutButton=()=>{
+    localStorage.clear("token")
+    history.push("./login")
+  }
   return (
-    // <div className="header">
-    //     <ul>
-    //         <li>LogO
-    //         </li>
-    //         <li>
-    //             HOME
-    //         </li>
-    //         <li>PRODUCT</li>
-    //         <li>ABOUT US
-    //         </li>
-    //     </ul>
-    // </div>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+    <div className="header">
+      <ul>
+        
+      
+        <li>
+          <NavLink to="/">SIGN UP</NavLink>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+        <li>
+          <NavLink to="/login">LOGIN</NavLink>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+        <li>
+          <NavLink to="/product">PRODUCT</NavLink>
         </li>
-        {/* <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li> */}
+        <li>
+          <NavLink to="/about">ABOUT</NavLink>
+        </li>
+        <li>
+          <NavLink to="/changePassword">PROFILE</NavLink>
+        </li>
+        <li>
+          <NavLink to="/logout" onClick={LogoutButton}>LOGOUT</NavLink>
+        </li>
+        <li>
+          <NavLink to="/setting" >SETTING</NavLink>
+        </li>
       </ul>
     </div>
-  </div>
-</nav>
-  )
+  );
 }

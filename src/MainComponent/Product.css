@@ -1,0 +1,125 @@
+/* .parent{
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    width: 100%;
+
+}
+.parent .child1{
+    padding-left: 2vw;
+    width: 100%;
+}
+.parent .child2{
+    padding-right: 2vw;
+    background-color: rgb(151, 141, 141);
+    border-radius: 10px;
+    margin-right: 5vw;
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.parent .child2 span{
+
+    color: blue;
+} */
+/* Product.css */
+
+.product-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #37854b;
+    padding: 20px;
+  }
+  
+  .parent {
+    
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .child1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+ 
+  }
+  
+  .child2 {
+    font-size: 18px;
+    color: #666;
+  }
+  
+  .child2 span {
+    color: #007bff;
+    text-decoration: underline;
+  }
+  
+  .expense-form {
+    width: 40%;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #666;
+  }
+  
+  .expense-form input,
+  .expense-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  .expense-form .submit{
+    padding: 0px 20px;
+    background-color: #193b1e;
+    color:white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 5px;
+    
+  }
+  
+  .expense-form button:hover {
+    background-color: #37854b;
+  }
+  .styled-table {
+    border-collapse: collapse;
+    width: 516px;
+  
+    margin-top: 5px;
+    border-radius: 15px;
+  
+  }
+  
+  .styled-table th, .styled-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    
+  }
+  
+  .styled-table th {
+    background-color: #f2f2f2;
+  }
+  
+ 
+  

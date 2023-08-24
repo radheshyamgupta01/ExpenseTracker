@@ -1,98 +1,122 @@
-import React, { useRef } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './SignUp.css'; // Import your custom styles here
+import React,{useEffect, useState} from 'react'
+import { useHistory } from 'react-router-dom';
 
-function SignUp() {
-  const emailInput = useRef(null)
-  const nameInput = useRef(null)
-  const passwordInput = useRef(null)
-  const confirmpasswordInput = useRef(null)
-
-  
-  const buttonHandler = (e) => {
-
-    e.preventDefault();
-    console.log(emailInput.current.value)
-    console.log(nameInput.current.value)
-
-
-
- 
-  
-    fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyAKS4hyLhlkxU0AVEJjyqH2PYc9LG4TXqo`, {
-      method: "POST",
-      body:JSON.stringify({
-        email:emailInput.current.value,
-        password:passwordInput.current.value,
-       
-        returnSecureToken: true,
-
-      }),
-      
-      headers:{
-        "Content-Type":"application/json"
-      }
-      
-    })
-    .then((res)=>{
-      if(res.ok){
-
-      }
-      else{
-   return res.json().then((body )=>{
-    alert(body)
-
-})
-      }
-    })
-    .then((body)=>{
-     
-    alert(body)
-    
-    nameInput.current.value=""
-    passwordInput.current.value=""
-    emailInput.current.value=""
-    confirmpasswordInput.current.value=""
-
-    })
-    .catch((err)=>{
-      alert(err)
-      nameInput.current.value=""
-      passwordInput.current.value=""
-      emailInput.current.value=""
-      confirmpasswordInput.current.value=""
-    })
-  
+import "./SignUp.css"
+export default function SignUp() {
+  const [emailInput,setEmailInput]=useState("")
+  const [passwordInput,setpasswordInput]=useState("")
+  const history = useHistory();
+  const emailHandler=(e)=>{
+    setEmailInput(e.target.value)
   }
-  return (
-    <div className="container col-9 mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card p-4 shadow">
-            <h2 className="text-center mb-4">Sign Up</h2>
-            <form >
-              <div className="mb-3 ">
-                <input type="text" className="form-control h-50" placeholder="Username" ref={nameInput} required />
-              </div>
-              <div className="mb-3">
-                <input type="email " className="form-control h-50" placeholder="Email" ref={emailInput} required />
-              </div>
-              <div className="mb-3">
-                <input type="password" className="form-control h-50" placeholder="Password" ref={passwordInput} required />
-              </div>
-              <div className="mb-4">
-                <input type="password" className="form-control h-50" placeholder="Confirm Password" ref={confirmpasswordInput} required />
-              </div>
-              <button type="submit"  onClick ={buttonHandler} className="btn btn-primary btn-block h-50">Sign Up</button>
-            </form>
-            <p className="text-center mt-3">
-              Already have an account? <a href="#">Log In</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+  const passwordHandler=(e)=>{
+    setpasswordInput(e.target.value)
+  }
+  const sendEmailVerification = (tokenId) => {
+    fetch(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyA7YeTd7ZFDkf2KAhcUDB9mUbPhpalT1Kk`, {
+      method: "POST",
+      body: JSON.stringify({
+        requestType: "VERIFY_EMAIL",
+        idToken: tokenId,
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        alert("Email verification link sent. Please check your email.");
+      } else {
+        throw new Error("Error sending email verification");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      alert("Error sending email verification");
+    });
+  }
 
-export default SignUp;
+// cheking user varified or not 
+const checkEmailVerificationStatus = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=YOUR_FIREBASE_API_KEY`, {
+      method: "POST",
+      body: JSON.stringify({
+        idToken: token
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("Error fetching user data");
+      }
+    })
+    .then(data => {
+      setIsEmailVerified(data.users[0].emailVerified);
+      setConfirmationCode(data.users[0].validSince);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+};
+useEffect(()=>{
+  checkEmailVerificationStatus()
+},[])
+  const formHandler=(e)=>{
+e.preventDefault()
+ 
+  fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA7YeTd7ZFDkf2KAhcUDB9mUbPhpalT1Kk
+  `,{
+method:"POST",
+body:JSON.stringify({
+email:emailInput,
+password:passwordInput,
+returnSecureToken:true,
+})
+  })
+  .then((res)=>{
+    if(res.ok){
+      
+      setEmailInput("")
+      setpasswordInput("")
+      history.push("/login")
+      return res.json()
+
+    }
+    else{
+    return res.json().then((body)=>{
+     
+      alert(body.error.message)
+      setEmailInput("")
+      setpasswordInput("")
+    })
+    }
+  })
+  .then((body)=>{
+    alert(" succesfully Sign up")
+ sendEmailVerification(body.idToken)
+  })
+  .catch((error)=>{
+console.log(error)
+  })
+}
+  return (
+    <div  className="sign-up-container">
+        <form onSubmit={formHandler}>
+         <h1 className="height text">Sign-Up</h1>
+            <input type="email" placeholder="Email" required className="height" onChange={emailHandler}></input>
+            <br></br>
+         
+            <input type="password" placeholder='Password' required className="height" onChange={passwordHandler}></input>
+            <br></br>
+            <button className="height" type='"submit'>Submit</button>
+        </form>
+    </div>
+  )
+}
