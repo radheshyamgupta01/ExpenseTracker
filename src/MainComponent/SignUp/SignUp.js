@@ -36,38 +36,7 @@ export default function SignUp() {
     });
   }
 
-// cheking user varified or not 
-const checkEmailVerificationStatus = () => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=YOUR_FIREBASE_API_KEY`, {
-      method: "POST",
-      body: JSON.stringify({
-        idToken: token
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error("Error fetching user data");
-      }
-    })
-    .then(data => {
-      setIsEmailVerified(data.users[0].emailVerified);
-      setConfirmationCode(data.users[0].validSince);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  }
-};
-useEffect(()=>{
-  checkEmailVerificationStatus()
-},[])
+
   const formHandler=(e)=>{
 e.preventDefault()
  
@@ -99,7 +68,8 @@ returnSecureToken:true,
     }
   })
   .then((body)=>{
-    alert(" succesfully Sign up")
+    alert("Successfully signed up");
+
  sendEmailVerification(body.idToken)
   })
   .catch((error)=>{
